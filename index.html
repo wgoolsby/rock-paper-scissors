@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+    <script>
+      let computerPlay = () => Math.floor(Math.random() * (4 - 1) + 1);
+
+      let getPlayerSelection = () => {
+        let playerSelection = prompt("Rock, Paper, or Scissors?");
+        // Clean up the player input
+        playerSelection = playerSelection.toLowerCase().trim();
+        return playerSelection === "rock"
+          ? 1
+          : playerSelection === "paper"
+          ? 2
+          : playerSelection === "scissors"
+          ? 3
+          : console.log("You didn't enter rock, paper, or scissors.");
+      };
+
+      let playRound = (getPlayerSelection, computerPlay) => {
+        if (getPlayerSelection === 1) {
+          console.log("Player: rock");
+        } else if (getPlayerSelection === 2) {
+          console.log("Player: paper");
+        } else if (getPlayerSelection === 3) {
+          console.log("Player: scissors");
+        }
+
+        if (computerPlay === 1) {
+          console.log("Computer: rock");
+        } else if (computerPlay === 2) {
+          console.log("Computer: paper");
+        } else if (computerPlay === 3) {
+          console.log("Computer: scissors");
+        }
+        console.log("--");
+
+        // Compare the two params & increment win count
+        if (
+          (getPlayerSelection === 1 && computerPlay === 3) ||
+          (getPlayerSelection === 2 && computerPlay === 1) ||
+          (getPlayerSelection === 3 && computerPlay === 2)
+        ) {
+          return "player";
+        } else if (
+          (computerPlay === 1 && getPlayerSelection === 3) ||
+          (computerPlay === 2 && getPlayerSelection === 1) ||
+          (computerPlay === 3 && getPlayerSelection === 2)
+        ) {
+          return "computer";
+        }
+      };
+
+      let game = () => {
+        let playerWinCount = 0;
+        let computerWinCount = 0;
+
+        let winner;
+
+        for (let i = 0; i < 5; i += 1) {
+          winner = playRound(getPlayerSelection(), computerPlay());
+
+          if (winner === "player") {
+            playerWinCount += 1;
+          } else if (winner === "computer") {
+            computerWinCount += 1;
+          }
+
+          console.log("Player Score: " + playerWinCount);
+          console.log("Computer Score: " + computerWinCount);
+          console.log("------");
+        }
+
+        return playerWinCount > computerWinCount
+          ? "Player Wins!"
+          : computerWinCount > playerWinCount
+          ? "Computer Wins!"
+          : "It's a tie!";
+      };
+
+      console.log(game());
+    </script>
+  </body>
+</html>
