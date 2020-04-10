@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+    <button data-throw="1" id="rock" class="shooter">Rock</button>
+    <button data-throw="2" id="paper" class="shooter">Paper</button>
+    <button data-throw="3" id="scissors" class="shooter">Scissors</button>
+
+    <div>
+      <h1>Results</h1>
+      <p class="score">Player Score: <span id="player-score">0</span></p>
+      <p class="score">Computer Score: <span id="computer-score">0</span></p>
+      <p class="score">Tie: <span id="tie-score">0</span></p>
+    </div>
+    <script>
+      // Have to keep score
+      let playerWinCount = 0;
+      let computerWinCount = 0;
+      let tieCount = 0;
+
+      // Identify the DOM elements to update
+      const playerScore = document.getElementById('player-score');
+      const computerScore = document.getElementById('computer-score');
+      const tieScore = document.getElementById('tie-score');
+
+      const playRound = (playerPlay) => {
+        let computerPlay = Math.floor(Math.random() * (4 - 1) + 1);
+
+        // Compare the two params & increment win count
+        if (
+          (playerPlay === 1 && computerPlay === 3) ||
+          (playerPlay === 2 && computerPlay === 1) ||
+          (playerPlay === 3 && computerPlay === 2)
+        ) {
+          updatePlayerScore((playerWinCount += 1));
+        } else if (
+          (computerPlay === 1 && playerPlay === 3) ||
+          (computerPlay === 2 && playerPlay === 1) ||
+          (computerPlay === 3 && playerPlay === 2)
+        ) {
+          updateComputerScore((computerWinCount += 1));
+        } else {
+          updateTieScore((tieCount += 1));
+        }
+      };
+
+      const updatePlayerScore = (playerWin) => {
+        playerScore.textContent = playerWin;
+        if (playerWin === 5) {
+          announceWinner('player');
+        }
+      };
+
+      const updateComputerScore = (computerWin) => {
+        computerScore.textContent = computerWin;
+        if (computerWin === 5) {
+          announceWinner('computer');
+        }
+      };
+
+      const updateTieScore = (tie) => {
+        tieScore.textContent = tie;
+      };
+
+      const announceWinner = (winner) => {
+        if (winner === 'player') {
+          alert('Player wins!');
+        } else if (winner === 'computer') {
+          alert('Computer wins!');
+        }
+        resetGame();
+      };
+
+      const resetGame = () => {
+        playerWinCount = 0;
+        computerWinCount = 0;
+        tieCount = 0;
+        playerScore.textContent = 0;
+        computerScore.textContent = 0;
+        tieScore.textContent = 0;
+      };
+
+      // Grab a nodelist from all of the shooter buttons.
+      const shooters = document.querySelectorAll('.shooter');
+
+      shooters.forEach((shooter) =>
+        shooter.addEventListener('click', (e) =>
+          playRound(parseInt(e.target.dataset.throw))
+        )
+      );
+    </script>
+  </body>
+</html>
